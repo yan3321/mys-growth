@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Report - Reviews</title>
+    <!-- Import MDBootstrap and Libramex fonts -->
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.1.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+        * {
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="m-5 px-4">
+        <h3 style="display:inline;">mys-growth</h3>
+        <p style="display:inline;" class="text-muted mx-3">data compiled and presented by <a href="https://github.com/yan3321">yan3321</a></p>
+        <p id="textLastUpdated" style="display:inline;" class="text-muted mx-3"></p>
+        <!-- <button id="autoUpdateButton" type="button" style="display:inline;" class="btn btn-primary text-right mx-3">
+            Auto-Update ON
+        </button> -->
+
+        <div class="row row-cols-1 row-cols-md-2 g-4 py-4">
+            <!-- Bar chart -->
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <iframe style="margin: 0 auto; display:block;" width="1111" height="670" seamless
+                            frameborder="0" scrolling="no"
+                            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vST-Uol725_7QEf1MlOuZFQlT-EkWCeNsSL_pi6vD5dx4IyFjYkLmumOr97esrxyvc-whN1iF8-K2tX/pubchart?oid=2135731931&amp;format=interactive"></iframe>
+                    </div>
+                    <div class="card-body">
+                        <!-- <h5 style="display:inline;" class="card-title">Top 5 books</h5>
+                        <p style="display:inline;" class="text-muted mx-1">by review count</p> -->
+                    </div>
+                </div>
+            </div>
+            <!-- Other data -->
+            <!-- <div class="col">
+                <div class="row row-cols-1 row-cols-md-1 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Most popular book</h5>
+                                <h4 id="mostPopularBook" class="card-text" style="display:inline;">...</h4>
+                                <p id="mostPopularBookAuthor" class="card-text text-muted ml-3">...</p>
+                            </div>
+                            <div id="mostPopularBookGenre" class="card-footer text-muted">...</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Most active author</h5>
+                                <h4 id="mostActiveAuthor" class="card-text" style="display:inline;">...</h5>
+                                    <p id="mostActiveAuthorUsername" class="card-text ml-3">...</p>
+                            </div>
+                            <div id="mostActiveAuthorReviewCount" class="card-footer text-muted">...</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+</body>
+
+<!-- MDBootstrap JS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.1.0/mdb.min.js"></script>
+<!-- Chart.js for drawing charts -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+</html>
