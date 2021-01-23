@@ -22,60 +22,301 @@
 <body>
     <div class="m-5 px-4">
         <h3 style="display:inline;">mys-growth</h3>
-        <p style="display:inline;" class="text-muted mx-3">data compiled and presented by <a href="https://github.com/yan3321">yan3321</a></p>
+        <p style="display:inline;" class="text-muted mx-3">data compiled and presented by <a
+                href="https://github.com/yan3321">yan3321</a></p>
         <p id="textLastUpdated" style="display:inline;" class="text-muted mx-3"></p>
-        <!-- <button id="autoUpdateButton" type="button" style="display:inline;" class="btn btn-primary text-right mx-3">
+        <!-- Button: Toggle full/monthly view -->
+        <button id="autoUpdateButton" type="button" style="display:none;"
+            class="btn btn-primary text-right mx-3 invisible">
             Auto-Update ON
-        </button> -->
+        </button>
+        <!-- Button: Toggle full/monthly view -->
+        <button id="viewToggleButton" type="button" style="display:inline;" class="btn btn-primary text-right mx-3">
+            Monthly View
+        </button>
 
-        <div class="row row-cols-1 row-cols-md-2 g-4 py-4">
-            <!-- Bar chart -->
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <iframe style="margin: 0 auto; display:block;" width="1111" height="670" seamless
-                            frameborder="0" scrolling="no"
-                            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vST-Uol725_7QEf1MlOuZFQlT-EkWCeNsSL_pi6vD5dx4IyFjYkLmumOr97esrxyvc-whN1iF8-K2tX/pubchart?oid=2135731931&amp;format=interactive"></iframe>
-                    </div>
-                    <div class="card-body">
-                        <!-- <h5 style="display:inline;" class="card-title">Top 5 books</h5>
-                        <p style="display:inline;" class="text-muted mx-1">by review count</p> -->
-                    </div>
+        <div class="my-3">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="card-body">
+                    <!-- <h5 style="display:inline;" class="card-title">Top 5 books</h5>
+                    <p style="display:inline;" class="text-muted mx-1">by review count</p> -->
                 </div>
             </div>
-            <!-- Other data -->
-            <!-- <div class="col">
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
                 <div class="row row-cols-1 row-cols-md-1 g-4">
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Most popular book</h5>
-                                <h4 id="mostPopularBook" class="card-text" style="display:inline;">...</h4>
-                                <p id="mostPopularBookAuthor" class="card-text text-muted ml-3">...</p>
+                                <h5 class="card-title">Average monthly growth</h5>
+                                <h4 id="averageMonthlyGrowth" class="card-text" style="display:inline;">...</h4>
                             </div>
-                            <div id="mostPopularBookGenre" class="card-footer text-muted">...</div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Most active author</h5>
-                                <h4 id="mostActiveAuthor" class="card-text" style="display:inline;">...</h5>
-                                    <p id="mostActiveAuthorUsername" class="card-text ml-3">...</p>
-                            </div>
-                            <div id="mostActiveAuthorReviewCount" class="card-footer text-muted">...</div>
+                            <div class="card-footer text-muted">Mean, 30 days</div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Grid container -->
+        <div class="container p-4">
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">About</h5>
+
+                    <p>
+                        Made possible with GitHub Pages, Cloudflare Workers / Workers KV, Google Sheets, Roblox Groups API. 
+                        Page rendered with MDBootstrap and Chart.js.
+                    </p>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Links</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="https://mys-growth.yan3321.com/api/" class="text-dark">mys-growth API</a>
+                        </li>
+                        <li>
+                            <a href="https://groups.roblox.com/v1/groups/1143446" class="text-dark">Roblox Groups API</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/yan3321/mys-growth" class="text-dark">Source (GitHub)</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-0">Author</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/yan3321" class="text-dark">GitHub (@yan3321)</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/yan3321" class="text-dark">Twitter (@yan3321)</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            Copyright © 
+            <a class="text-dark" href="https://yan3321.com">Tan Jun Yan (@yan3321)</a> 2021.
+            All rights reserved.
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
 
 </body>
+
+
 
 <!-- MDBootstrap JS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.1.0/mdb.min.js"></script>
 <!-- Chart.js for drawing charts -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+    const ctx_line = document.getElementById('lineChart').getContext('2d');
+
+    function createGradient(ctx, x) {
+        let gradient = ctx.createLinearGradient(0, 0, x, 0);
+        gradient.addColorStop(0, '#109341');
+        gradient.addColorStop(1, '#00B342');
+        return gradient;
+    }
+
+    // Bar chart
+
+    const lineChartData = {
+        labels: [],
+        datasets: [{
+            label: 'Member count',
+            // backgroundColor: createGradient(ctx_line, 1920),
+            backgroundColor: 'rgba(0, 100, 200, .7)',
+            borderWidth: 2,
+            data: [0]
+        }]
+    }
+
+    const lineChart = new Chart(ctx_line, {
+        type: 'line',
+        data: lineChartData,
+        options: {
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                }]
+            },
+            maintainAspectRatio: false,
+            onResize: (chart, size) => {
+                // lineChartData.datasets[0].backgroundColor = createGradient(ctx_line, size.width);
+            }
+        }
+    });
+
+    lineChart.canvas.parentNode.style.height = '64vh';
+
+    let autoUpdate = false;
+    let currentMode = 'full';
+
+    // Modes
+    let cachedData = false;
+
+    function updateView(viewMode = currentMode, data = cachedData) {
+
+        let month_array = [];
+
+        // Bar chart
+        const array_labels = [];
+        const array_memberCount = [];
+
+        let lastLabel = "";
+        let lastMonth = false;
+        let currentYear = false;
+
+        data.forEach((snapshot, index) => {
+            const isoTimestamp = snapshot[0];
+            const memberCount = snapshot[1];
+
+            const timestampDate = new Date(isoTimestamp);
+            const timeLabel = timestampDate.toDateString();
+
+            const thisMonth = timestampDate.getMonth();
+            const thisYear = timestampDate.getFullYear();
+
+            if ((lastMonth != 0 && !lastMonth) || (lastMonth != thisMonth)) {
+                lastMonth = thisMonth;
+                month_array.push({ date: timestampDate, year: thisYear, month: thisMonth, members: memberCount });
+            }
+
+            if (viewMode == 'full') {
+                if (lastLabel != timeLabel) {
+                    array_memberCount.push(memberCount);
+                    lineChartData.datasets[0].data = array_memberCount;
+
+                    array_labels.push(timeLabel);
+                    lineChartData.labels = array_labels;
+                }
+            }
+
+            lastLabel = timeLabel;
+        });
+
+        // Calculate average monthly growth
+        let averageMonthlyGrowth = 0;
+        let sumMonthlyGrowth = 0;
+        let validMonths = 0;
+        month_array.forEach((currentMonth, index) => {
+            previousMonth = month_array[index - 1];
+            if (previousMonth) {
+                const monthlyGrowth = currentMonth.members - previousMonth.members;
+                sumMonthlyGrowth += monthlyGrowth;
+                validMonths++;
+            }
+
+            if (viewMode == 'month') {
+                array_memberCount.push(currentMonth.members);
+                lineChartData.datasets[0].data = array_memberCount;
+
+                array_labels.push(currentMonth.date.toDateString());
+                lineChartData.labels = array_labels;
+            }
+        });
+
+        averageMonthlyGrowth = sumMonthlyGrowth / validMonths;
+
+        document.getElementById('averageMonthlyGrowth').innerHTML = Math.round(averageMonthlyGrowth) + ' members';
+
+        lineChart.update();
+    }
+
+    async function updateData() {
+        fetch('https://mys-growth.yan3321.com/api/')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject('Error occured getting API data');
+            })
+            .then(responseData => {
+                // Last updated text
+                document.getElementById('textLastUpdated').innerHTML = `Data last updated ${new Date().toString()}`;
+                // Update charts and etc.
+                updateView(undefined, responseData);
+                cachedData = responseData;
+            })
+            .catch(error => console.error(error));
+    }
+
+    updateData();
+    const updateInterval = 30000;
+    let updateIntervalRunner = false;
+    if (autoUpdate) {
+        updateIntervalRunner = setInterval(updateData, updateInterval);
+    }
+
+    const autoUpdateButton = document.getElementById('autoUpdateButton');
+
+
+    function updateAutoUpdateButtonState() {
+        if (autoUpdate) {
+            autoUpdate = false;
+            clearInterval(updateIntervalRunner);
+            autoUpdateButton.innerHTML = 'Auto-Update OFF';
+            autoUpdateButton.classList.add("btn-danger");
+            autoUpdateButton.classList.remove("btn-primary");
+        } else {
+            autoUpdate = true;
+            updateData();
+            updateIntervalRunner = setInterval(updateData, updateInterval);
+            autoUpdateButton.innerHTML = 'Auto-Update ON';
+            autoUpdateButton.classList.add("btn-primary");
+            autoUpdateButton.classList.remove("btn-danger");
+        }
+    }
+
+    autoUpdateButton.addEventListener('click', updateAutoUpdateButtonState);
+
+    const toggleViewButton = document.getElementById('viewToggleButton');
+
+    function updateToggleViewButtonState() {
+        if (currentMode == 'full') {
+            currentMode = 'month';
+            updateView(currentMode);
+            toggleViewButton.innerHTML = 'Full View';
+            toggleViewButton.classList.add("btn-secondary");
+            toggleViewButton.classList.remove("btn-primary");
+        } else {
+            currentMode = 'full';
+            updateView(currentMode);
+            toggleViewButton.innerHTML = 'Monthly View';
+            toggleViewButton.classList.add("btn-primary");
+            toggleViewButton.classList.remove("btn-secondary");
+        }
+    }
+
+    toggleViewButton.addEventListener('click', updateToggleViewButtonState);
+</script>
 
 </html>
