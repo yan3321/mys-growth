@@ -52,6 +52,7 @@
         </div>
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Average monthly growth -->
             <div class="col">
                 <div class="row row-cols-1 row-cols-md-1 g-4">
                     <div class="col">
@@ -60,7 +61,21 @@
                                 <h5 class="card-title">Average monthly growth</h5>
                                 <h4 id="averageMonthlyGrowth" class="card-text" style="display:inline;">...</h4>
                             </div>
-                            <div class="card-footer text-muted">Mean, 30 days</div>
+                            <div class="card-footer text-muted">Mean value over last 6 months</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Average daily growth -->
+            <div class="col">
+                <div class="row row-cols-1 row-cols-md-1 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Average daily growth</h5>
+                                <h4 id="averageDailyGrowth" class="card-text" style="display:inline;">...</h4>
+                            </div>
+                            <div class="card-footer text-muted">Mean value over last 7 days</div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +149,6 @@
     <!-- Footer -->
 
 </body>
-
 
 
 <!-- MDBootstrap JS -->
@@ -234,11 +248,13 @@
         let sumMonthlyGrowth = 0;
         let validMonths = 0;
         month_array.forEach((currentMonth, index) => {
-            previousMonth = month_array[index - 1];
-            if (previousMonth) {
-                const monthlyGrowth = currentMonth.members - previousMonth.members;
-                sumMonthlyGrowth += monthlyGrowth;
-                validMonths++;
+            if (validMonths <= 6) {
+                let previousMonth = month_array[index - 1];
+                if (previousMonth) {
+                    const monthlyGrowth = currentMonth.members - previousMonth.members;
+                    sumMonthlyGrowth += monthlyGrowth;
+                    validMonths++;
+                }
             }
 
             if (viewMode == 'month') {
@@ -250,9 +266,29 @@
             }
         });
 
+
+
         averageMonthlyGrowth = sumMonthlyGrowth / validMonths;
 
         document.getElementById('averageMonthlyGrowth').innerHTML = Math.round(averageMonthlyGrowth) + ' members';
+
+        let averageDailyGrowth = 0;
+        let sumDailyGrowth = 0;
+        let validDays = 0;
+
+        for (let index = data.length - 1; index > data.length - 7; index--) {
+            let previousDay = data[index - 1];
+            if (previousDay) {
+                const day = data[index];
+                const dailyGrowth = day[1] - previousDay[1];
+                sumDailyGrowth += dailyGrowth;
+                validDays++;
+            }
+        }
+
+        averageDailyGrowth = sumDailyGrowth / validDays;
+
+        document.getElementById('averageDailyGrowth').innerHTML = Math.round(averageDailyGrowth) + ' members';
 
         lineChart.update();
     }
