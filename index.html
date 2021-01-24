@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
     <title>mys-growth</title>
     <meta name="description" content="Showcasing the growth of Malaysia of Roblox">
     <!-- Open Graph tags -->
@@ -47,18 +48,21 @@
 
 <body>
     <div class="container-md p-4">
-        <div>
-            <h3 style="display:inline;">mys-growth</h3>
-            <p id="textLastUpdated" style="display:inline;" class="text-muted mx-3"></p>
-            <!-- Button: Auto-update -->
-            <button id="autoUpdateButton" type="button" style="display:none;"
-                class="btn btn-primary text-right mx-3 invisible">
-                Auto-Update ON
-            </button>
-            <!-- Button: Toggle full/monthly view -->
-            <button id="viewToggleButton" type="button" style="display:inline;" class="btn btn-primary text-right mx-3">
-                Monthly View
-            </button>
+        <div class="container">
+            <div class="d-flex">
+                <h3>mys-growth</h3>
+                <!-- Button: Auto-update -->
+                <button id="autoUpdateButton" type="button" style="display:none;"
+                    class="btn btn-primary text-right mx-3 invisible">
+                    Auto-Update ON
+                </button>
+                <!-- Button: Toggle full/monthly view -->
+                <div class="ms-auto">
+                    <button id="viewToggleButton" type="button" class="btn btn-primary">
+                        Monthly View
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="my-3">
@@ -66,10 +70,7 @@
                 <div class="card-body">
                     <canvas id="lineChart"></canvas>
                 </div>
-                <div class="card-body">
-                    <!-- <h5 style="display:inline;" class="card-title">Top 5 books</h5>
-                    <p style="display:inline;" class="text-muted mx-1">by review count</p> -->
-                </div>
+                <div id="textLastUpdated" class="card-footer text-muted">...</div>
             </div>
         </div>
 
@@ -82,7 +83,10 @@
                             <div class="card-body">
                                 <h5 class="card-title">Average monthly growth</h5>
                                 <p id="averageMonthlyGrowth" class="card-text"
-                                    style="font-size:1.5rem; font-weight:500;">...</p>
+                                    style="display:inline; font-size:1.5rem; font-weight:500;">...</p>
+                                <p id="averageMonthlyGrowthValue" class="card-text"
+                                    style="display:inline; font-size:1rem; font-weight:500;">
+                                    ...</p>
                             </div>
                             <div class="card-footer text-muted">Mean value over last 6 months</div>
                         </div>
@@ -96,10 +100,33 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Average daily growth</h5>
-                                <p id="averageDailyGrowth" class="card-text" style="font-size:1.5rem; font-weight:500;">
+                                <p id="averageDailyGrowth" class="card-text"
+                                    style="display:inline; font-size:1.5rem; font-weight:500;">
+                                    ...</p>
+                                <p id="averageDailyGrowthValue" class="card-text"
+                                    style="display:inline; font-size:1rem; font-weight:500;">
                                     ...</p>
                             </div>
                             <div class="card-footer text-muted">Mean value over last 7 days</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Highest growth month -->
+            <div class="col">
+                <div class="row row-cols-1 row-cols-md-1 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Top growth month</h5>
+                                <p id="highestGrowthMonth" class="card-text"
+                                    style="display:inline; font-size:1.5rem; font-weight:500;">
+                                    ...</p>
+                                <p id="highestGrowthValue" class="card-text"
+                                    style="display:inline; font-size:1rem; font-weight:500;">
+                                    ...</p>
+                            </div>
+                            <div class="card-footer text-muted">Maximum value over all months</div>
                         </div>
                     </div>
                 </div>
@@ -179,7 +206,7 @@
 <!-- MDBootstrap JS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.1.0/mdb.min.js"></script>
 <!-- Chart.js for drawing charts -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
 
 <script>
     const ctx_line = document.getElementById('lineChart').getContext('2d');
@@ -200,7 +227,7 @@
             // backgroundColor: createGradient(ctx_line, 1920),
             backgroundColor: 'rgba(0, 100, 200, .7)',
             borderWidth: 2,
-            data: [0]
+            data: []
         }]
     }
 
@@ -209,9 +236,24 @@
         data: lineChartData,
         options: {
             scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'linear',
+                    time: {
+                        unit: 'month',
+                        tooltipFormat: 'DD MMM YYYY'
+                    },
+                    ticks: {
+                        source: 'auto',
+                    },
+                    gridLines: {
+                        zeroLineColor: 'rgba(0, 0, 0, 0.1)',
+                    }
+                }],
                 yAxes: [{
                     type: 'linear',
                 }]
+
             },
             maintainAspectRatio: false,
             onResize: (chart, size) => {
@@ -236,7 +278,6 @@
         const array_labels = [];
         const array_memberCount = [];
 
-        let lastLabel = "";
         let lastMonth = false;
         let currentYear = false;
 
@@ -256,16 +297,16 @@
             }
 
             if (viewMode == 'full') {
-                if (lastLabel != timeLabel) {
-                    array_memberCount.push(memberCount);
-                    lineChartData.datasets[0].data = array_memberCount;
-
-                    array_labels.push(timeLabel);
-                    lineChartData.labels = array_labels;
+                const sampleObject = {
+                    t: timestampDate,
+                    y: memberCount
                 }
-            }
+                array_memberCount.push(sampleObject);
+                lineChartData.datasets[0].data = array_memberCount;
 
-            lastLabel = timeLabel;
+                // array_labels.push(timeLabel);
+                // lineChartData.labels = array_labels;
+            }
         });
 
         // Calculate average monthly growth
@@ -273,29 +314,44 @@
         let sumMonthlyGrowth = 0;
         let validMonths = 0;
         month_array.forEach((currentMonth, index) => {
-            if (validMonths <= 6) {
-                let previousMonth = month_array[index - 1];
-                if (previousMonth) {
-                    const monthlyGrowth = currentMonth.members - previousMonth.members;
+            month_array[index].monthlyGrowth = false;
+            // month_array[index].growthSinceLastMonth = false;
+            const previousMonthIndex = index - 1;
+            if (previousMonthIndex in month_array) {
+                const previousMonth = month_array[previousMonthIndex];
+                const monthlyGrowth = currentMonth.members - previousMonth.members;
+                month_array[previousMonthIndex].monthlyGrowth = monthlyGrowth;
+                // month_array[index].growthSinceLastMonth = monthlyGrowth;
+                if (validMonths <= 6) {
                     sumMonthlyGrowth += monthlyGrowth;
                     validMonths++;
                 }
             }
 
             if (viewMode == 'month') {
-                array_memberCount.push(currentMonth.members);
+                const sampleObject = {
+                    t: currentMonth.date,
+                    y: currentMonth.members
+                }
+                array_memberCount.push(sampleObject);
                 lineChartData.datasets[0].data = array_memberCount;
 
-                array_labels.push(currentMonth.date.toDateString());
-                lineChartData.labels = array_labels;
+                // array_labels.push(currentMonth.date.toDateString());
+                // lineChartData.labels = array_labels;
             }
         });
 
+        console.log(month_array);
+        console.log(getHighestGrowthMonth());
 
+        const latestMembers = data[data.length - 1][1];
 
         averageMonthlyGrowth = sumMonthlyGrowth / validMonths;
 
         document.getElementById('averageMonthlyGrowth').innerHTML = Math.round(averageMonthlyGrowth) + ' members';
+        document.getElementById('averageMonthlyGrowthValue').innerHTML = `(+${((averageMonthlyGrowth/latestMembers)*100).toFixed(2)}%)`;
+
+        // Average daily growth
 
         let averageDailyGrowth = 0;
         let sumDailyGrowth = 0;
@@ -314,6 +370,27 @@
         averageDailyGrowth = sumDailyGrowth / validDays;
 
         document.getElementById('averageDailyGrowth').innerHTML = Math.round(averageDailyGrowth) + ' members';
+        document.getElementById('averageDailyGrowthValue').innerHTML = `(+${((averageDailyGrowth/latestMembers)*100).toFixed(2)}%)`;
+
+        // Highest growth month
+
+        function getHighestGrowthMonth() {
+            let highestIndex = 0;
+            let currentTotal = 0;
+            month_array.forEach((currentMonth, index) => {
+                const monthlyGrowth = currentMonth.monthlyGrowth;
+                if (monthlyGrowth) {
+                    if (monthlyGrowth > currentTotal) {
+                        currentTotal = currentMonth.monthlyGrowth;
+                        highestIndex = index;
+                    }
+                }
+            });
+            return month_array[highestIndex];
+        }
+
+        document.getElementById('highestGrowthMonth').innerHTML = getHighestGrowthMonth().date.toLocaleString('default', { month: 'short', year: 'numeric' });
+        document.getElementById('highestGrowthValue').innerHTML = `(+${getHighestGrowthMonth().monthlyGrowth})`;
 
         lineChart.update();
     }
