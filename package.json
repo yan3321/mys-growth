@@ -1,0 +1,24 @@
+{
+  "name": "mys-growth",
+  "version": "1.0.0",
+  "description": "Member growth statistics for Malaysia of Roblox",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "purgecss": "^4.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "purgecss --css src/mdb.min.css src/all.css --content ./index.html ./**/*.js --output assets/css/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yan3321/mys-growth.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yan3321/mys-growth/issues"
+  },
+  "homepage": "https://github.com/yan3321/mys-growth#readme"
+}
