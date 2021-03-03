@@ -185,7 +185,7 @@ function updateView(viewMode = currentMode, data = cachedData) {
 }
 
 async function updateData() {
-    fetch('https://mys-growth.yan3321.com/api/')
+    fetch('https://mys-growth-api.yan3321.workers.dev/')
         .then(response => {
             if (response.ok) {
                 return response.json();
